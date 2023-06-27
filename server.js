@@ -1,10 +1,8 @@
-
-
+const dotenv = require('dotenv')
+dotenv.config()
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3001;
-
-
 
 app.listen(PORT, () => console.log(`Server is listening here: http://localhost:${PORT}`))
 
@@ -21,8 +19,6 @@ app.get('/pokemon/:name', async (req, res) => {
     // 
   
 })
-
-     
 
 if (process.env.NODE_ENV === 'production') {
   const path = require('path')
