@@ -1,30 +1,31 @@
+
+
 const dotenv = require('dotenv')
 dotenv.config()
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3001;
+const express = require('express')
+const db = require('./db/db')
+const cors = require('cors')
+const scoreRoutes = require('./score')
+const leaderboardRoutes = require('./leaderboard')
 
-app.listen(PORT, () => console.log(`Server is listening here: http://localhost:${PORT}`))
+const app = express()
+const PORT = process.env.PORT || 3001
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
-app.get('/pokemon/:name', async (req, res) => {
-  const pokemonName = req.params.name.toLowerCase()
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
-  const data = await response.json()
-  const randomIndex = Math.floor(Math.random() * data.results.length)
-  const randomPokemon = data.results[randomIndex]
-  res.json(randomPokemon.name)
-  
-    // 
-  
-})
+app.use('/score', scoreRoutes)
+app.use('/leaderboard', leaderboardRoutes)
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`)
+});
 
 if (process.env.NODE_ENV === 'production') {
   const path = require('path')
-  app.use(express.static(path.join(__dirname, 'build')));
+  app.use(express.static(path.join(__dirname, 'build')))
 
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
   });
 }

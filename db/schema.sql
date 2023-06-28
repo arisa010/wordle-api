@@ -9,5 +9,5 @@ CREATE TABLE score_counter (
 CREATE TABLE leaderboard (
   id SERIAL PRIMARY KEY,
   player_name TEXT,
-  score INT,
+  score INT
 );
